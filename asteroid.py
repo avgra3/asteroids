@@ -9,7 +9,7 @@ class Asteroid(CircleShape):
     def draw(self, screen):
         width = 2
         draw.circle(screen, color="white",
-                    center=self.position, radius=self.radius)
+                    center=self.position, radius=self.radius, width=width)
 
     def update(self, dt):
         self.position += (self.velocity * dt)
