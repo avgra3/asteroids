@@ -43,6 +43,16 @@ def main():
             text = font.render(f"Current score: {score}", True, "red")
             text_position = text.get_rect(centerx=screen.get_width() / 2, y=10)
             screen.blit(text, text_position)
+            # Show remaining player lives
+        if pygame.font:
+            font = pygame.font.Font(None, 32)
+            lives_text = font.render(
+                f"Lives left: {player.lives}", True, "red")
+            lives_text_position = lives_text.get_rect(
+                centerx=screen.get_width() / 2,
+                y=SCREEN_HEIGHT - 40,
+            )
+            screen.blit(lives_text, lives_text_position)
 
         for drawn in drawable:
             drawn.draw(screen)
@@ -52,7 +62,9 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collisions(player):
-                sys.exit("Game over!")
+                if player.lives < 0:
+                    sys.exit("Game over!")
+                player.reset()
             for shot in shots:
                 if asteroid.collisions(shot):
                     score += 1
