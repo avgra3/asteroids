@@ -5,6 +5,18 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 import sys
 from shot import Shot
+import os
+
+EXPLOSION_SOUND = os.path.abspath("./assets/explosion.mp3")
+
+
+def play_explosion():
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.load(EXPLOSION_SOUND)
+        pygame.mixer.music.play()
+    except pygame.error:
+        print("Sound was unable to play: No such audio device!")
 
 
 def main():
@@ -62,11 +74,13 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collisions(player):
+                play_explosion()
                 if player.lives < 0:
                     sys.exit("Game over!")
                 player.reset()
             for shot in shots:
                 if asteroid.collisions(shot):
+                    play_explosion()
                     score += 1
                     asteroid.split()
                     shot.kill()
