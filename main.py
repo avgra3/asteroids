@@ -3,6 +3,7 @@ from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+import sys
 
 
 def main():
@@ -37,6 +38,10 @@ def main():
 
         for update in updateable:
             update.update(dt)
+
+        for asteroid in asteroids:
+            if asteroid.collisions(player):
+                sys.exit("Game over!")
 
         pygame.display.flip()
         dt = pygame.time.Clock().tick(fps) / 1000
