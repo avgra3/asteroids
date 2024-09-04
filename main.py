@@ -5,10 +5,10 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 import sys
 from shot import Shot
-import os
+from pathlib import Path
 
-EXPLOSION_SOUND = os.path.abspath("./assets/explosion.mp3")
-
+EXPLOSION_SOUND = Path("assets/explosion.mp3").resolve()
+SPACE_BACKGROUND = Path("assets/space.jpg").resolve()
 
 def play_explosion():
     try:
@@ -21,6 +21,7 @@ def play_explosion():
 
 def main():
     pygame.init()
+    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption(CAPTION)
     print("Starting asteroids!")
@@ -49,7 +50,10 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        screen.fill("black")
+        # screen.fill("black")
+        background = pygame.image.load(SPACE_BACKGROUND)
+        screen.blit(background, (0, 0))
+
         if pygame.font:
             font = pygame.font.Font(None, 64)
             text = font.render(f"Current score: {score}", True, "red")
@@ -74,13 +78,13 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collisions(player):
-                play_explosion()
-                if player.lives < 0:
+               # play_explosion()
+                if player.lives <= 0:
                     sys.exit("Game over!")
                 player.reset()
             for shot in shots:
                 if asteroid.collisions(shot):
-                    play_explosion()
+                   # play_explosion()
                     score += 1
                     asteroid.split()
                     shot.kill()
