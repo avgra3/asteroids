@@ -10,6 +10,7 @@ from pathlib import Path
 EXPLOSION_SOUND = Path("assets/explosion.mp3").resolve()
 SPACE_BACKGROUND = Path("assets/space.jpg").resolve()
 
+
 def play_explosion():
     try:
         pygame.mixer.init()
@@ -21,7 +22,6 @@ def play_explosion():
 
 def main():
     pygame.init()
-    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption(CAPTION)
     print("Starting asteroids!")
@@ -78,13 +78,13 @@ def main():
 
         for asteroid in asteroids:
             if asteroid.collisions(player):
-               # play_explosion()
+                # play_explosion()
                 if player.lives <= 0:
                     sys.exit("Game over!")
                 player.reset()
             for shot in shots:
                 if asteroid.collisions(shot):
-                   # play_explosion()
+                    # play_explosion()
                     score += 1
                     asteroid.split()
                     shot.kill()
