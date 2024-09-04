@@ -1,3 +1,4 @@
+from circleshape import pygame
 from circleshape import CircleShape
 import pygame
 from constants import (
@@ -11,7 +12,7 @@ from constants import (
     SCREEN_WIDTH,
 )
 from shot import Shot
-
+from pathlib import Path
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -21,6 +22,12 @@ class Player(CircleShape):
         self.rotation = 0
         self.timer = 0
         self.lives = PLAYER_LIVES
+        self.image = pygame.image.load(Path("assets/rocket.png"))
+
+    def rocket(self):
+        rock = pygame.transform.rotate(pygame.transform.scale(self.image, (self.radius * 3, self.radius * 3)), self.rotation)
+        return rock
+ 
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -32,7 +39,10 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
-        pygame.draw.polygon(screen, "purple", self.triangle(), 2)
+        width = 0 # was: 2
+        poly = pygame.draw.polygon(screen, "purple", self.triangle(), width=width)
+        rock = self.rocket()
+        # screen.blit(rock, poly)
 
     def rotate(self, dt):
         self.rotation += (PLAYER_TURN_SPEED * dt)
