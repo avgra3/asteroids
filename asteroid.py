@@ -4,17 +4,26 @@ from constants import ASTEROID_MIN_RADIUS
 import random
 from pathlib import Path
 
+ASTEROID_IMAGE = Path("assets/asteroid.png")
+
+
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
-        self.image = transform.scale(image.load(Path("assets/asteroid.png")), (self.radius * 2.1, self.radius * 2.1))
+        self.image = image.load(ASTEROID_IMAGE)
+        self.image_rect = self.image.get_rect()
+
+    def asteroid(self):
+        asteroid = self.image
+        return asteroid
 
     def draw(self, screen):
-        width = -1 # Was: 2
+        width = 1  # Was: 2
         circle = draw.circle(screen, color="white",
-                    center=self.position, radius=self.radius, width=width)
-        screen.blit(self.image, circle)
-
+                             center=self.position, radius=self.radius, width=width)
+        circle_size = (circle.width, circle.height)
+        image = transform.scale(self.asteroid(), circle_size)
+        screen.blit(image, circle)
 
     def update(self, dt):
         self.position += (self.velocity * dt)
